@@ -16,22 +16,22 @@ const transformarTipo = (item) => {
 
 btnEliminarDuplicados.addEventListener("click", () => {
     const valorInput = inputDuplicados.value;
+    let textoResultado = ""; 
 
     if (valorInput === "") {
-        resultadoDuplicados.textContent = "Por favor, ingrese elementos separados por comas.";
-        return;
+        textoResultado = "Por favor, ingrese elementos separados por comas.";
+    } else {
+        const arrayOriginal = valorInput.split(",").map(transformarTipo);
+        const arrayResultado = eliminarDuplicados(arrayOriginal);
+
+        const resultadoFormateado = arrayResultado.map(item => 
+            typeof item === "string" ? `"${item}"` : item
+        );
+
+        textoResultado = `[ ${resultadoFormateado.join(", ")} ]`;
     }
 
-    const arrayOriginal = valorInput.split(",").map(transformarTipo);
-
-    const arrayResultado = eliminarDuplicados(arrayOriginal);
-
-    const resultadoFormateado = arrayResultado.map(item => {
-        if (typeof item === "string") return `"${item}"`;
-        return item;
-    });
-
-    resultadoDuplicados.textContent = `[ ${resultadoFormateado.join(", ")} ]`;
+    resultadoDuplicados.textContent = textoResultado;
 
     inputDuplicados.value = "";
     inputDuplicados.focus();
